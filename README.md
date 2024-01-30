@@ -1,0 +1,1 @@
+This is a repository containing James Vakoc's work for the class APPM 4600 "Numerical Methods and Scientific Computing" teken at the University of Colorado Boulder. The repository structure contains two folders: Homeworks and Labs. The homeworks folder has a sibdirectory structure containing a folder for each homework assignment.
