@@ -3,31 +3,36 @@ import numpy as np
     
 def driver():
 
+     np.set_printoptions(precision=16)
+
 # test functions 
-     f1 = lambda x: 1+0.5*np.sin(x)
+     f1 = lambda x: (10/(x+4))**0.5
 # fixed point is alpha1 = 1.4987....
 
-     f2 = lambda x: 3+2*np.sin(x)
+     #f2 = lambda x: 3+2*np.sin(x)
 #fixed point is alpha2 = 3.09... 
 
      Nmax = 100
-     tol = 1e-6
+     tol = 1e-10
 
 # test f1 '''
-     x0 = 0.0
-     [xstar,ier,v] = fixedpt(f1,x0,tol,Nmax)
+     x0 = 1.5
+     [xstar,ier,v,count] = fixedpt(f1,x0,tol,Nmax)
      print('the approximate fixed point is:',xstar)
      print('f1(xstar):',f1(xstar))
      print('Error message reads:',ier)
      print('The apprixmation for the fixed point at each iteration is :', v)
+     print('The algorithm took', count, 'iterations to converge within the desired tolerance')
+     print('The order of convergence is', np.log(np.absolute(v[11]-v[12])/np.absolute(v[10]-v[12]))/ np.log(np.absolute(v[10]-v[12])/np.absolute(v[9]-v[12])))
+     
     
 #test f2 '''
-     x0 = 0.0
-     [xstar,ier,v] = fixedpt(f2,x0,tol,Nmax)
-     print('the approximate fixed point is:',xstar)
-     print('f2(xstar):',f2(xstar))
-     print('Error message reads:',ier)
-     print('The apprixmation for the fixed point at each iteration is :', v)
+     #x0 = 0.0
+     #[xstar,ier,v,count] = fixedpt(f2,x0,tol,Nmax)
+     #print('the approximate fixed point is:',xstar)
+     #print('f2(xstar):',f2(xstar))
+     #print('Error message reads:',ier)
+     #print('The apprixmation for the fixed point at each iteration is :', v)
 
 
 
@@ -48,7 +53,7 @@ def fixedpt(f,x0,tol,Nmax):
                v[count]=x1
                for i in range(count+1,Nmax):
                     v=np.delete(v,count+1)
-               return [xstar,ier,v]
+               return [xstar,ier,v,count]
           x0 = x1
      
      xstar = x1
