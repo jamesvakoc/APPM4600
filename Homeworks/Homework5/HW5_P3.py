@@ -1,32 +1,45 @@
+#Import Libraries
 import numpy as np
 from scipy.interpolate import CubicSpline
 import matplotlib.pyplot as plt
 
 def driver():
 
-    n_nodal=5
-    x_nodal=np.linspace(0,3*np.pi/9,n_nodal)
+    #Define Number of Nodal Points
+    n_nodal=[5,10,20,40]
 
-    x_eval=np.linspace(0,3*np.pi/9,1000)
-    
-    f = lambda x: np.sin(9*x)
-    y_nodal=f(x_nodal)
-    y_eval=f(x_eval)
+    for i in range(len(n_nodal)):
+
+        #Create Nodal Points
+        x_nodal=np.linspace(0,np.pi/3,n_nodal[i])
+
+        #Create eval points
+        x_eval=np.linspace(0,np.pi/3,1000)
+
+        #create nodal data and evaluate targets for error analysis
+        f = lambda x: np.sin(9*x)
+        y_nodal=f(x_nodal)
+        y_eval=f(x_eval)
     
 
     
-    
-    cs=CubicSpline(x_nodal,y_nodal,bc_type='periodic')
+        #cubic periodic spline
+        cs=CubicSpline(x_nodal,y_nodal,bc_type='periodic')
 
-    error=np.log10(abs(cs(x_eval)-y_eval))
-    plt.plot(x_eval,error)
-    plt.plot(x_eval,cs(x_eval))
-    plt.plot(x_eval,y_eval)
+        #create error
+
+        #plot error
+        error=np.log10(abs(cs(x_eval)-y_eval))
+        plt.plot(x_eval,error,label='n='+str(n_nodal[i]))
+        #plt.plot(x_eval,cs(x_eval))
+        #plt.plot(x_eval,y_eval)
+
+    #Plot Parameters
+    plt.legend()
+    plt.ylabel('log10 of interpolation error')
+    plt.xlabel('x')
+    plt.title('Periodic Cubic Spline Interpolation Error for f(x)=sin(9x) with n Nodal Points')
     plt.show()
-
-    
-    
-    print(x)
     
 
     return
